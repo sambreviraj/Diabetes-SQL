@@ -1,5 +1,6 @@
 --Q1: Retrieve the patient_id and ages of all patients
-SELECT patient_id, age
+SELECT patient_id,
+       EXTRACT(YEAR FROM CURRENT_DATE) - age AS year_of_birth 
 FROM diabetes;
 
 --Q2: Select all female patients who are older than 40
@@ -61,28 +62,8 @@ SET smoking_history = 'Ex-smoker'
 WHERE age > 50;
 
 --Q13: Insert a new patient into the database with sample data
-INSERT INTO diabetes (employeename, 
-					  patient_id, 
-					  gender, 
-					  age, 
-					  hypertension,
-					  heart_disease,
-					  smoking_history,
-					  bmi,
-					  hba1c_level,
-					  blood_glucose_level, 
-					  diabetes) 
-VALUES ('Sample Name',
-	   'P0',
-	   'Female',
-	   23,
-	   0,
-	   0,
-	   'never',
-	   25,
-	   5,
-	   155,
-	   0);
+INSERT INTO diabetes (patient_id, gender, age, hypertension, heart_disease, smoking_history, bmi, hba1c_level, blood_glucose_level, diabetes) 
+VALUES ('P0', 'Female', 23, 0, 0, 'never', 25, 5, 155, 0);
 
 --Q14: Delete all patients with heart disease from the database
 DELETE FROM diabetes
@@ -116,5 +97,7 @@ SELECT * FROM patient_info;
 --3. Use the patient_id as the primary key in this table and reference it as a foreign key in other related tables.
 
 --Q19: Methods to optimize the performance of SQL queries on this dataset
---1. Identify columns frequently used in WHERE clauses, JOIN conditions, and ORDER BY clauses, and create indexes on those columns. This can greatly enhance data retrieval speed.
---2. Only select the columns necessary for your query. Avoid using SELECT * if you do not need all columns, as fetching unnecessary data can impact performance.
+--1. Index frequently queried columns such as patient_id, age, and blood_glucose_level.
+--2. Use SELECT specific_column_names instead of SELECT * to reduce memory load and improve retrieval speed.
+--3. Regularly analyze and update statistics on indexed columns for accurate query planning.
+
